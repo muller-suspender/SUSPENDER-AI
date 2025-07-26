@@ -53,6 +53,7 @@
             padding: 15px;
             margin-bottom: 20px;
             border-radius: 0 5px 5px 0;
+            position: relative;
         }
         .command-title {
             color: var(--accent);
@@ -79,6 +80,21 @@
             color: white;
             font-family: monospace;
             margin-bottom: 10px;
+            border-radius: 3px;
+        }
+        .execute-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            transition: all 0.3s;
+        }
+        .execute-btn:hover {
+            background-color: var(--accent);
         }
         .contact-btn {
             display: block;
@@ -138,10 +154,67 @@
             opacity: 0.3;
             z-index: -1;
         }
+        .status-message {
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 3px;
+            text-align: center;
+            display: none;
+            font-weight: bold;
+        }
+        .attack-status {
+            background-color: #4d0000;
+            border: 1px solid var(--accent);
+            color: #ff9999;
+        }
+        .success-status {
+            background-color: #004d00;
+            border: 1px solid #00ff00;
+            color: #99ff99;
+        }
+        .error-status {
+            background-color: #4d0000;
+            border: 1px solid var(--accent);
+            color: #ff9999;
+        }
+        .audio-control {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.7);
+            padding: 5px;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 100;
+        }
+        .progress-bar {
+            height: 5px;
+            background: #333;
+            margin-top: 10px;
+            border-radius: 3px;
+            overflow: hidden;
+            display: none;
+        }
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--accent);
+            transition: width 60s linear;
+        }
     </style>
 </head>
 <body>
     <div class="flame"></div>
+    <audio id="bgAudio" loop>
+        <!-- Replace with your audio link -->
+        <source src="YOUR_AUDIO_LINK_HERE" type="audio/mpeg">
+    </audio>
+    <div class="audio-control" onclick="toggleAudio()">🔊</div>
     
     <header>
         <h1>☠️ MULLERTECH VAMPIRE SYSTEM ☠️</h1>
@@ -161,95 +234,165 @@
             <div class="command-desc">Standard vampire attack that sends nightmares to the target device.</div>
             <div class="command-usage">Usage: .bite-me 254xxxxxxxxx</div>
             <input type="text" class="command-input" placeholder="Type target number (e.g., 254762670615)">
-        </div>
-        
-        <div class="command-card">
-            <div class="command-title">[2] vampire-hard</div>
-            <div class="command-desc">Powerful attack that sends continuous strikes to crash target device.</div>
-            <div class="command-usage">Usage: .vampire-hard 254xxxxxxxxx</div>
-            <input type="text" class="command-input" placeholder="Type target number (e.g., 254762670615)">
-        </div>
-        
-        <div class="command-card">
-            <div class="command-title">[3] vampire-bite</div>
-            <div class="command-desc">DEADLY attack explained below - can permanently disable accounts.</div>
-            <div class="command-usage">Usage: .vampire-bite 254xxxxxxxxx</div>
-            <input type="text" class="command-input" placeholder="Type target number (e.g., 254762670615)">
-            <div class="command-desc" style="margin-top: 15px; color: var(--accent);">
-                <strong>VAMPIRE-BITE EXPLANATION:</strong><br>
-                This command sends 50 consecutive JSON exploits with:<br>
-                - 10,000 parameter repetitions<br>
-                - WebSocket flood attacks<br>
-                - Mobile device targeting<br>
-                - Account suspension triggers<br>
-                Effect: Target device may freeze, WhatsApp crash, or account get banned.
-            </div>
-        </div>
-        
-        <div class="command-card">
-            <div class="command-title">[4] grup-bites</div>
-            <div class="command-desc">Group annihilation attack that can suspend entire WhatsApp groups.</div>
-            <div class="command-usage">Usage: .grup-bites (execute in target group)</div>
-            <input type="text" class="command-input" placeholder="Paste group JID here (or execute in chat)">
-        </div>
-        
-        <a href="https://wa.me/254762670615?text=Muller%20Tech%20I%20need%20premium%20access%20so%20I%20can%20use%20the%20tool" class="contact-btn">🔥 GET PREMIUM ACCESS 🔥</a>
-        
-        <a href="https://wa.me/254762670615?text=Hello%20Muller%20Tech%20help%20me%20know%20your%20tool%20am%20really%20in%20need" class="contact-btn" style="background-color: #333;">🆘 REQUEST INFORMATION 🆘</a>
-        
-        <div style="text-align: center; margin: 20px 0;">
-            <p>Join our channel for updates: <a href="#" class="channel-link">https://whatsapp.com/channel/0029VbA6BUbCHDymv2WCqu2g</a></p>
-        </div>
+            <button class="execute-btn" onclick="executeAttack(this)">Execute Attack</button>
+                <div class="progress-bar">
+        <div class="progress-fill"></div>
     </div>
-    
-    <footer>
-        &copy; 2025 Mullertech Vampire Systems | Official Channel: @MullerTechVampire
-    </footer>
+    <div class="status-message attack-status">VAMPIRE ATTACKING the enemy... wait for it to finish</div>
+    <div class="status-message success-status">Information successfully vampire finished the opponent fully✅✅</div>
+    <div class="status-message error-status">You need premium access to start this command</div>
+</div>
 
-    <script>
-        // Simple flame effect
-        document.addEventListener('DOMContentLoaded', function() {
-            const flame = document.querySelector('.flame');
-            const colors = ['#ff0000', '#ff3300', '#ff6600', '#ff9900', '#ffcc00'];
+<div class="command-card">
+    <div class="command-title">[2] vampire-hard</div>
+    <div class="command-desc">Powerful attack that sends continuous strikes to crash target device.</div>
+    <div class="command-usage">Usage: .vampire-hard 254xxxxxxxxx</div>
+    <input type="text" class="command-input" placeholder="Type target number (e.g., 254762670615)">
+    <button class="execute-btn" onclick="executeAttack(this)">Execute Attack</button>
+    <div class="progress-bar">
+        <div class="progress-fill"></div>
+    </div>
+    <div class="status-message attack-status">VAMPIRE HARD ATTACK INITIATED ☠️<br>Flooding target with payloads...</div>
+    <div class="status-message success-status">✅ Target device crashed successfully<br>All systems terminated</div>
+    <div class="status-message error-status">⚠️ PREMIUM ACCESS REQUIRED<br>Contact Mullertech to unlock</div>
+</div>
+
+<div class="command-card">
+    <div class="command-title">[3] vampire-bite</div>
+    <div class="command-desc">DEADLY attack that can permanently disable accounts.</div>
+    <div class="command-usage">Usage: .vampire-bite 254xxxxxxxxx</div>
+    <input type="text" class="command-input" placeholder="Type target number (e.g., 254762670615)">
+    <button class="execute-btn" onclick="executeAttack(this)">Execute Attack</button>
+    <div class="progress-bar">
+        <div class="progress-fill"></div>
+    </div>
+    <div class="status-message attack-status">☠️ FINAL BITE INITIATED ☠️<br>Target will be permanently disabled</div>
+    <div class="status-message success-status">☠️ TARGET PERMANENTLY TERMINATED ☠️<br>Account disabled successfully</div>
+    <div class="status-message error-status">🩸 VAMPIRE BITE LOCKED 🩸<br>Premium users only</div>
+    <div class="command-desc" style="margin-top: 15px; color: var(--accent);">
+        <strong>VAMPIRE-BITE EXPLANATION:</strong><br>
+        This command sends:<br>
+        - 50 consecutive JSON payloads<br>
+        - 10,000 parameter overload<br>
+        - Permanent account suspension triggers<br>
+        Effect: Target WhatsApp will be permanently banned
+    </div>
+</div>
+
+<div class="command-card">
+    <div class="command-title">[4] grup-bites</div>
+    <div class="command-desc">Group annihilation attack that can suspend entire WhatsApp groups.</div>
+    <div class="command-usage">Usage: .grup-bites (execute in target group)</div>
+    <input type="text" class="command-input" placeholder="Paste group JID here (or execute in chat)">
+    <button class="execute-btn" onclick="executeAttack(this)">Execute Attack</button>
+    <div class="progress-bar">
+        <div class="progress-fill"></div>
+    </div>
+    <div class="status-message attack-status">☠️ GROUP ANNIHILATION STARTED ☠️<br>All members will be affected</div>
+    <div class="status-message success-status">✅ GROUP DESTROYED ✅<br>All targets eliminated</div>
+    <div class="status-message error-status">⚠️ ADMIN PRIVILEGES REQUIRED<br>Contact Mullertech</div>
+</div>
+
+<script>
+    // Enhanced attack execution with sound effects
+    const attackAudio = {
+        start: new Audio('https://files.catbox.moe/eh9t80.mp3'),
+        success: new Audio('https://files.catbox.moe/eh9t80.mp3'),
+        fail: new Audio('https://files.catbox.moe/eh9t80.mp3')
+    };
+
+    // Set audio volumes
+    Object.values(attackAudio).forEach(audio => audio.volume = 0.5);
+
+    function executeAttack(button) {
+        const card = button.parentElement;
+        const input = card.querySelector('.command-input');
+        const attackMsg = card.querySelector('.attack-status');
+        const successMsg = card.querySelector('.success-status');
+        const errorMsg = card.querySelector('.error-status');
+        const progressBar = card.querySelector('.progress-bar');
+        const progressFill = card.querySelector('.progress-fill');
+        
+        // Reset UI
+        attackMsg.style.display = 'none';
+        successMsg.style.display = 'none';
+        errorMsg.style.display = 'none';
+        progressBar.style.display = 'block';
+        progressFill.style.width = '0%';
+        
+        if (!input.value) {
+            errorMsg.textContent = "⚠️ Please enter target number first";
+            errorMsg.style.display = 'block';
+            attackAudio.fail.play();
+            return;
+        }
+        
+        // Check if it's Mullertech (owner)
+        const isOwner = input.value.includes('254762670615');
+        
+        // Show attacking status
+        attackMsg.style.display = 'block';
+        progressFill.style.width = '100%';
+        button.disabled = true;
+        button.innerHTML = '☠️ ATTACKING... ☠️';
+        attackAudio.start.play();
+        
+        // Simulate 1 minute attack
+        setTimeout(() => {
+            attackMsg.style.display = 'none';
+            progressBar.style.display = 'none';
+            button.disabled = false;
+            button.textContent = 'Execute Attack';
             
-            setInterval(() => {
-                let html = '';
-                for (let i = 0; i < 20; i++) {
-                    const size = Math.random() * 20 + 5;
-                    const left = Math.random() * 100;
-                    const bottom = Math.random() * 100;
-                    const color = colors[Math.floor(Math.random() * colors.length)];
-                    const opacity = Math.random() * 0.5 + 0.1;
-                    
-                    html += `<div style="
-                        position: absolute;
-                        width: ${size}px;
-                        height: ${size}px;
-                        left: ${left}%;
-                        bottom: ${bottom}%;
-                        background-color: ${color};
-                        border-radius: 50%;
-                        opacity: ${opacity};
-                        filter: blur(5px);
-                    "></div>`;
+            if (isOwner) {
+                successMsg.style.display = 'block';
+                attackAudio.success.play();
+                // Add blood effect for successful attack
+                createBloodEffect(card);
+            } else {
+                errorMsg.innerHTML = `⚠️ PREMIUM ACCESS REQUIRED!<br>
+                    Contact <a href="https://wa.me/254762670615" style="color:var(--accent)">Mullertech</a> to unlock`;
+                errorMsg.style.display = 'block';
+                attackAudio.fail.play();
+            }
+        }, 60000); // 1 minute attack duration
+    }
+
+    function createBloodEffect(container) {
+        // Create blood drip effect
+        for (let i = 0; i < 10; i++) {
+            const blood = document.createElement('div');
+            blood.style.position = 'absolute';
+            blood.style.width = '2px';
+            blood.style.height = Math.random() * 50 + 20 + 'px';
+            blood.style.background = 'linear-gradient(to bottom, #ff0000, #8b0000)';
+            blood.style.left = Math.random() * 100 + '%';
+            blood.style.top = '-50px';
+            blood.style.zIndex = '100';
+            blood.style.animation = `fall ${Math.random() * 2 + 1}s linear forwards`;
+            
+            // Add animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fall {
+                    to { transform: translateY(150px) rotate(${Math.random() * 30 - 15}deg); opacity: 0; }
                 }
-                flame.innerHTML = html;
-            }, 100);
+            `;
+            document.head.appendChild(style);
             
-            // Make input fields show example numbers when clicked
-            const inputs = document.querySelectorAll('.command-input');
-            inputs.forEach(input => {
-                input.addEventListener('focus', function() {
-                    this.value = '254' + Math.floor(100000000 + Math.random() * 900000000);
-                });
-                
-                input.addEventListener('blur', function() {
-                    if(this.value === '254' + this.value.substr(3)) {
-                        this.value = '';
-                    }
-                });
-            });
-        });
-    </script>
-</body>
-            </html>
+            container.appendChild(blood);
+            
+            // Remove after animation
+            setTimeout(() => blood.remove(), 3000);
+        }
+    }
+
+    // Auto-play background music
+    const bgMusic = new Audio('https://files.catbox.moe/eh9t80.mp3');
+    bgMusic.loop = true;
+    bgMusic.volume = 0.3;
+    
+    document.addEventListener('click', () => {
+        bgMusic.play().catch(e => console.log('Audio error:', e));
+    }, { once: true });
+</script>
