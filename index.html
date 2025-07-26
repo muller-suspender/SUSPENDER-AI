@@ -18,22 +18,34 @@
             margin: 0;
             padding: 0;
             line-height: 1.6;
+            background-image: url('https://i.imgur.com/X6QX0yT.png');
+            background-size: cover;
         }
         header {
-            background-color: var(--primary);
+            background-color: rgba(0, 0, 0, 0.8);
             padding: 20px;
             text-align: center;
             border-bottom: 3px solid var(--accent);
+            position: relative;
+            overflow: hidden;
         }
         h1 {
             margin: 0;
             font-size: 2.5rem;
-            text-shadow: 2px 2px 4px #000;
+            text-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent);
+            animation: blink 1.5s infinite alternate;
+        }
+        @keyframes blink {
+            0% { text-shadow: 0 0 10px var(--accent); }
+            100% { text-shadow: 0 0 20px var(--accent), 0 0 30px #ff3333, 0 0 40px #ff6666; }
         }
         .container {
             max-width: 900px;
             margin: 30px auto;
             padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 5px;
+            box-shadow: 0 0 15px var(--accent);
         }
         .command-card {
             background-color: #1a1a1a;
@@ -57,6 +69,16 @@
             border-radius: 3px;
             font-family: monospace;
             overflow-x: auto;
+            margin-bottom: 10px;
+        }
+        .command-input {
+            width: 100%;
+            padding: 10px;
+            background-color: #111;
+            border: 1px solid var(--accent);
+            color: white;
+            font-family: monospace;
+            margin-bottom: 10px;
         }
         .contact-btn {
             display: block;
@@ -70,16 +92,19 @@
             font-weight: bold;
             border-radius: 5px;
             transition: all 0.3s;
+            box-shadow: 0 0 10px var(--accent);
         }
         .contact-btn:hover {
             background-color: var(--accent);
             transform: scale(1.05);
+            box-shadow: 0 0 20px var(--accent);
         }
         footer {
             text-align: center;
             padding: 20px;
-            background-color: var(--primary);
+            background-color: rgba(0, 0, 0, 0.8);
             margin-top: 30px;
+            font-size: 0.8rem;
         }
         .warning {
             background-color: #330000;
@@ -87,59 +112,144 @@
             border-radius: 5px;
             margin-bottom: 30px;
             border: 1px solid var(--accent);
+            text-align: center;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 5px var(--accent); }
+            50% { box-shadow: 0 0 20px var(--accent); }
+            100% { box-shadow: 0 0 5px var(--accent); }
+        }
+        .channel-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .channel-link:hover {
+            text-decoration: underline;
+        }
+        .flame {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            opacity: 0.3;
+            z-index: -1;
         }
     </style>
 </head>
 <body>
+    <div class="flame"></div>
+    
     <header>
-        <h1>MULLERTECH VAMPIRE SYSTEM</h1>
+        <h1>☠️ MULLERTECH VAMPIRE SYSTEM ☠️</h1>
         <p>Advanced WhatsApp Exploit Commands</p>
     </header>
     
     <div class="container">
         <div class="warning">
-            <strong>⚠️ WARNING:</strong> These commands are for premium users only. Unauthorized use may result in account suspension.
+            <strong>☠️ DANGER! HIGH RISK COMMANDS ☠️</strong><br>
+            These commands are for premium users only. Unauthorized use may result in permanent account suspension.
         </div>
         
-        <h2>Vampire Attack Commands</h2>
+        <h2 style="text-align: center; color: var(--accent);">VAMPIRE ATTACK COMMANDS</h2>
         
         <div class="command-card">
-            <div class="command-title">bite-me</div>
-            <div class="command-desc">Standard vampire attack that sends nightmares to the target.</div>
+            <div class="command-title">[1] bite-me</div>
+            <div class="command-desc">Standard vampire attack that sends nightmares to the target device.</div>
             <div class="command-usage">Usage: .bite-me 254xxxxxxxxx</div>
+            <input type="text" class="command-input" placeholder="Type target number (e.g., 254762670615)">
         </div>
         
         <div class="command-card">
-            <div class="command-title">vampire-hard</div>
-            <div class="command-desc">Hard attack that sends powerful strikes to the target.</div>
+            <div class="command-title">[2] vampire-hard</div>
+            <div class="command-desc">Powerful attack that sends continuous strikes to crash target device.</div>
             <div class="command-usage">Usage: .vampire-hard 254xxxxxxxxx</div>
+            <input type="text" class="command-input" placeholder="Type target number (e.g., 254762670615)">
         </div>
         
         <div class="command-card">
-            <div class="command-title">vampire-bite</div>
-            <div class="command-desc">Special bite attack that can potentially disable target accounts.</div>
+            <div class="command-title">[3] vampire-bite</div>
+            <div class="command-desc">DEADLY attack explained below - can permanently disable accounts.</div>
             <div class="command-usage">Usage: .vampire-bite 254xxxxxxxxx</div>
-        </div>
-        
-        <div class="command-card">
-            <div class="command-title">grup-bites</div>
-            <div class="command-desc">Group attack that can suspend entire WhatsApp groups.</div>
-            <div class="command-usage">Usage: .grup-bites (in group chat)</div>
-        </div>
-        
-        <a href="https://wa.me/254762670615" class="contact-btn">Contact Mullertech</a>
-        
-        <div class="command-card">
-            <div class="command-title">About</div>
-            <div class="command-desc">
-                <p>These commands are part of the Trashcore-Vampire system developed by Mullertech.</p>
-                <p>For premium access or custom commands, contact me directly on WhatsApp.</p>
+            <input type="text" class="command-input" placeholder="Type target number (e.g., 254762670615)">
+            <div class="command-desc" style="margin-top: 15px; color: var(--accent);">
+                <strong>VAMPIRE-BITE EXPLANATION:</strong><br>
+                This command sends 50 consecutive JSON exploits with:<br>
+                - 10,000 parameter repetitions<br>
+                - WebSocket flood attacks<br>
+                - Mobile device targeting<br>
+                - Account suspension triggers<br>
+                Effect: Target device may freeze, WhatsApp crash, or account get banned.
             </div>
+        </div>
+        
+        <div class="command-card">
+            <div class="command-title">[4] grup-bites</div>
+            <div class="command-desc">Group annihilation attack that can suspend entire WhatsApp groups.</div>
+            <div class="command-usage">Usage: .grup-bites (execute in target group)</div>
+            <input type="text" class="command-input" placeholder="Paste group JID here (or execute in chat)">
+        </div>
+        
+        <a href="https://wa.me/254762670615?text=Muller%20Tech%20I%20need%20premium%20access%20so%20I%20can%20use%20the%20tool" class="contact-btn">🔥 GET PREMIUM ACCESS 🔥</a>
+        
+        <a href="https://wa.me/254762670615?text=Hello%20Muller%20Tech%20help%20me%20know%20your%20tool%20am%20really%20in%20need" class="contact-btn" style="background-color: #333;">🆘 REQUEST INFORMATION 🆘</a>
+        
+        <div style="text-align: center; margin: 20px 0;">
+            <p>Join our channel for updates: <a href="#" class="channel-link">https://whatsapp.com/channel/0029VbA6BUbCHDymv2WCqu2g</a></p>
         </div>
     </div>
     
     <footer>
-        &copy; 2023 Mullertech | +254 762 670615
+        &copy; 2025 Mullertech Vampire Systems | Official Channel: @MullerTechVampire
     </footer>
+
+    <script>
+        // Simple flame effect
+        document.addEventListener('DOMContentLoaded', function() {
+            const flame = document.querySelector('.flame');
+            const colors = ['#ff0000', '#ff3300', '#ff6600', '#ff9900', '#ffcc00'];
+            
+            setInterval(() => {
+                let html = '';
+                for (let i = 0; i < 20; i++) {
+                    const size = Math.random() * 20 + 5;
+                    const left = Math.random() * 100;
+                    const bottom = Math.random() * 100;
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    const opacity = Math.random() * 0.5 + 0.1;
+                    
+                    html += `<div style="
+                        position: absolute;
+                        width: ${size}px;
+                        height: ${size}px;
+                        left: ${left}%;
+                        bottom: ${bottom}%;
+                        background-color: ${color};
+                        border-radius: 50%;
+                        opacity: ${opacity};
+                        filter: blur(5px);
+                    "></div>`;
+                }
+                flame.innerHTML = html;
+            }, 100);
+            
+            // Make input fields show example numbers when clicked
+            const inputs = document.querySelectorAll('.command-input');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.value = '254' + Math.floor(100000000 + Math.random() * 900000000);
+                });
+                
+                input.addEventListener('blur', function() {
+                    if(this.value === '254' + this.value.substr(3)) {
+                        this.value = '';
+                    }
+                });
+            });
+        });
+    </script>
 </body>
-  </html>
+            </html>
